@@ -286,13 +286,26 @@ h1, h2, h3, h4 {
   text-decoration: none;
   white-space: nowrap;
   font-weight: 600;
+  border-radius: 2px;
   border: 1px solid var(--gold);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.22s var(--ease),
+              border-color 0.22s var(--ease),
+              transform 0.22s var(--ease),
+              box-shadow 0.22s var(--ease);
 }
 
 .nav-cta:hover {
   background: var(--gold-dim);
   border-color: var(--gold-dim);
+  color: var(--navy) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(240, 180, 41, 0.32);
+}
+
+.nav-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(240, 180, 41, 0.18);
 }
 
 .nav-toggle {
@@ -373,9 +386,15 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   cursor: pointer;
+  border-radius: 2px;
   border: 1px solid transparent;
-  transition: all 0.2s var(--ease);
+  transition: background-color 0.22s var(--ease),
+              border-color 0.22s var(--ease),
+              color 0.22s var(--ease),
+              transform 0.22s var(--ease),
+              box-shadow 0.22s var(--ease);
 }
 
 .btn-p {
@@ -383,24 +402,40 @@ h1, h2, h3, h4 {
   color: var(--navy);
   font-weight: 600;
   border-color: var(--gold);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 .btn-p:hover {
   background-color: var(--gold-dim);
   border-color: var(--gold-dim);
+  color: var(--navy);
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(240, 180, 41, 0.3);
+}
+
+.btn-p:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-s {
   background-color: transparent;
   border: 1px solid var(--line-strong);
   color: var(--text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-s:hover {
   border-color: var(--gold);
   color: var(--gold);
+  background-color: rgba(240, 180, 41, 0.06);
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+
+.btn-s:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Hero Media Plate */
@@ -905,32 +940,60 @@ h1, h2, h3, h4 {
   line-height: 1.55;
 }
 
-/* ---- Partners Section & Logo Row ---- */
-.logos {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1px;
+/* ---- Partners Section & Continuous Sliding Animation ---- */
+.logos-slider {
+  margin-top: 40px;
+  overflow: hidden;
+  position: relative;
   background: var(--line);
   border: 1px solid var(--line);
-  margin-top: 40px;
+  padding: 1px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.logos-track {
+  display: flex;
+  width: max-content;
+  gap: 1px;
+  background: var(--line);
+  animation: logoContinuousScroll 28s linear infinite;
+  will-change: transform;
+}
+
+.logos-slider:hover .logos-track {
+  animation-play-state: paused;
+}
+
+@keyframes logoContinuousScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .logo-slot {
   background: var(--navy-mid);
+  width: clamp(190px, 22vw, 240px);
   aspect-ratio: 5 / 2;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 12px;
+  padding: 12px 20px;
   text-align: center;
   font-family: var(--f-mono);
   font-size: 0.64rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.22s var(--ease),
+              color 0.22s var(--ease);
+  user-select: none;
 }
 
 .logo-slot:hover {
@@ -941,6 +1004,30 @@ h1, h2, h3, h4 {
 .logo-slot strong {
   color: var(--white);
   font-size: 0.72rem;
+}
+
+.logo-slot img {
+  max-height: 48px;
+  max-width: 80%;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(1.15);
+  opacity: 0.85;
+  transition: filter 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+
+.logo-slot:hover img {
+  filter: grayscale(0%) brightness(1);
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 40px;
 }
 
 /* ---- The Nigeria Pilot ---- */
@@ -1186,16 +1273,31 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--gold);
   white-space: nowrap;
+  background: rgba(240, 180, 41, 0.06);
   border: 1px solid var(--line-strong);
-  padding: 6px 12px;
+  padding: 7px 14px;
   border-radius: 2px;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.22s var(--ease),
+              color 0.22s var(--ease),
+              border-color 0.22s var(--ease),
+              transform 0.22s var(--ease),
+              box-shadow 0.22s var(--ease);
 }
 
-.paper:hover .dl {
+.paper:hover .dl,
+.paper .dl:hover {
   background: var(--gold);
   color: var(--navy);
   border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(240, 180, 41, 0.28);
+}
+
+.paper .dl:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(240, 180, 41, 0.15);
 }
 
 /* ---- Working with AWTD (CTA Section & Inquiry Form) ---- */
@@ -1252,7 +1354,18 @@ h1, h2, h3, h4 {
   color: var(--gold);
   margin-top: auto;
   padding-top: 16px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: color 0.22s var(--ease),
+              transform 0.22s var(--ease);
+}
+
+.cta-c:hover .go,
+.cta-c .go:hover {
+  color: #FFD98A;
+  transform: translateX(4px);
 }
 
 /* Functional Single-Inbox Partner & Funder Inquiry Panel */
@@ -1524,10 +1637,17 @@ h1, h2, h3, h4 {
   .step,
   .person,
   .phase,
-  .metric {
+  .metric,
+  .logos-track {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
+  }
+  .logos-slider {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow-x: auto;
   }
 }
 
